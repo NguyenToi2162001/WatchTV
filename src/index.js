@@ -3,11 +3,47 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { CategoriesProvider } from './context/CategoriesProvider';
+import { ActorsProvider } from './context/ActorsProvider';
+import { NotificationProvider } from './context/NotificationProvider';
+import { AuthorsProvider } from './context/AuthorProvider';
+import { CharactorsProvider } from './context/CharactorsProvider';
+import { PlansProvider } from './context/PlansProvider';
+import { MoviesProvider } from './context/MoviesProvider';
+import { EpisodesProvider } from './context/EpisodesProvider';
+import { TrailerProvider } from './context/TrailersProvider';
+import { SignUpsProvider } from './context/SignUpProvider';
+import { AuthsProvider } from './context/AuthsProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <NotificationProvider>
+        <CategoriesProvider>
+          <ActorsProvider>
+            <AuthorsProvider>
+              <CharactorsProvider>
+                <PlansProvider>
+                  <MoviesProvider>
+                    <EpisodesProvider>
+                     <TrailerProvider>
+                    <SignUpsProvider>
+                   <AuthsProvider>
+                   <App />
+                   </AuthsProvider>
+                    </SignUpsProvider>
+                     </TrailerProvider>
+                    </EpisodesProvider>
+                  </MoviesProvider>
+                </PlansProvider>
+              </CharactorsProvider>
+            </AuthorsProvider>
+          </ActorsProvider>
+        </CategoriesProvider>
+      </NotificationProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
