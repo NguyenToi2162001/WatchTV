@@ -42,7 +42,7 @@ function UserManager(props) {
         setErrors(inner);
         setShowPassword(false)
     };
-    
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -131,10 +131,12 @@ function UserManager(props) {
     const togglePasswordVisibility = () => {
         setShowPassword((prev) => !prev);
     };
+
+
     return (
         <div>
             <div className='flex items-center'>
-                <h1 className='justify-start'>List Episodes</h1>
+                <h1 className='justify-start font-bold'>List Accounts</h1>
                 <div className='flex-1 text-center'>
                     <TextField
                         variant="outlined"
@@ -156,13 +158,13 @@ function UserManager(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell>Image</TableCell>
-                            <TableCell>User Name</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Password</TableCell>
-                            <TableCell>Role</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>#</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Image</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>User Name</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Email</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Password</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Role</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -176,14 +178,21 @@ function UserManager(props) {
                                 </TableCell>
                                 <TableCell>{row.username}</TableCell>
                                 <TableCell>{row.email}</TableCell>
-                                <TableCell>{row.password}</TableCell>
+                                <TableCell>{row.password ? <div className="flex password-input-container">
+                                    <input
+                                        className="w-20"
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={row.password}
+
+                                    />
+                                </div> : <h1 className='google'>SignUp with Google</h1>}</TableCell>
                                 <TableCell>{row.role}</TableCell>
                                 <TableCell>
-                                    <IconButton onClick={() => { handleOpen(); setAccount(row); }} color="primary">
-                                        <MdEdit />
+                                    <IconButton onClick={() => { handleOpen(); setAccount(row); }} >
+                                        <MdEdit className='bg-blue-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
-                                    <IconButton color="secondary" onClick={() => { setOpenDelete(true); setIdxoa(row.id); }}>
-                                        <RiDeleteBin5Fill />
+                                    <IconButton onClick={() => { setOpenDelete(true); setIdxoa(row.id); }}>
+                                        <RiDeleteBin5Fill className='bg-red-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

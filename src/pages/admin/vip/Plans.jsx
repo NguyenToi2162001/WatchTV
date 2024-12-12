@@ -115,12 +115,12 @@ function Plans() {
                                 <TableCell>
                                     <Tooltip title="Edit">
                                         <IconButton onClick={() => { handleOpen(); setPlan(row); }} color="primary">
-                                            <MdEdit />
+                                            <MdEdit className='bg-blue-700 text-white p-1 border rounded-lg' />
                                         </IconButton>
                                     </Tooltip>
                                     <Tooltip title="Delete">
                                         <IconButton onClick={() => { setOpenDelete(true); setIdxoa(row.id); }} color="secondary">
-                                            <RiDeleteBin5Fill />
+                                            <RiDeleteBin5Fill className='bg-red-700 text-white p-1 border rounded-lg' />
                                         </IconButton>
                                     </Tooltip>
                                 </TableCell>

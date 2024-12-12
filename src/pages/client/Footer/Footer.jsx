@@ -21,7 +21,7 @@ function Footer(props) {
                     <p className='mt-2'>Mã số doanh nghiệp: 0106539659.</p>
                     <p className='mt-2'>Ngày cấp mã số doanh nghiệp: 15/5/2014.</p>
                     <p className='mt-2'>Nơi cấp: Sở kế hoạch và đầu tư thành phố Hà Nội.</p>
-                    <img className='mt-2 w-20 h-20' src="https://assets.glxplay.io/web/responsive/w200/informed.png" alt="" />
+                    <img className='mt-2 w-28 h-20' src="https://assets.glxplay.io/web/responsive/w200/informed.png" alt="" />
                 </div>
 
                 {/* Giới thiệu */}
@@ -44,8 +44,8 @@ function Footer(props) {
                 <div className='lg:col-span-2'>
                     <strong>TẢI ỨNG DỤNG</strong>
                     <div className='flex items-center mt-4'>
-                        <img className='w-16 h-16' src="https://assets.glxplay.io/web/responsive/w200/android-app-download-button.png" alt="" />
-                        <img className='ms-2 w-16 h-16' src="https://assets.glxplay.io/web/responsive/w200/ios-app-download-button.png" alt="" />
+                        <img className='w-24 h-20' src="https://assets.glxplay.io/web/responsive/w200/android-app-download-button.png" alt="" />
+                        <img className='ms-2 w-24 h-20' src="https://assets.glxplay.io/web/responsive/w200/ios-app-download-button.png" alt="" />
                     </div>
                     <p className='mt-4 font-bold'>KẾT NỐI VỚI CHÚNG TÔI</p>
                     <div className='flex items-center mt-4'>

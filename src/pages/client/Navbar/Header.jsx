@@ -109,7 +109,7 @@ export default function Header() {
                             <div className="ms-2 relative  group menu-container">
                                 <div className='flex items-center menu-trigger'>
                                     <img
-                                        src="https://brglegendhillgolf.vn/wp-content/uploads/anh-avatar-anime-30.jpg"
+                                        src="https://cdn2.fptshop.com.vn/unsafe/800x0/avatar_anime_nam_cute_16_7ea91bf94c.jpg"
                                         alt="User Avatar"
                                         className="w-8 h-8 rounded-full mr-2 ms-2" />
                                     <FaChevronDown onClick={toggleMenu} />
@@ -120,25 +120,26 @@ export default function Header() {
                                 >
                                     <div className='flex items-center justify-start'>
                                         <img
-                                            src="https://brglegendhillgolf.vn/wp-content/uploads/anh-avatar-anime-30.jpg"
+                                            src="https://cdn2.fptshop.com.vn/unsafe/800x0/avatar_anime_nam_cute_16_7ea91bf94c.jpg"
                                             alt="User Avatar"
                                             className="w-8 h-8 rounded-full mr-2 ms-2"
                                         />
                                         <p className="text-black">{user.email}</p>
                                     </div>
                                     <hr className="border-black border-t-1 mt-2" />
-                                    <div className='flex items-center justify-start mt-1'>
-                                        <HiLibrary size={18} style={{ color: 'black' }} />
-                                        <button className="text-black ms-2">Movie Library Management</button>
+                                    <div className='flex items-center justify-start p-2 mt-1 text-black  hover:bg-black hover:text-white'>
+                                        <HiLibrary size={18}  />
+                                        <button className=" ms-2">Movie Library Management</button>
                                     </div>
-                                    <div className='flex items-center justify-start mt-1'>
-                                        <FaUser size={18} style={{ color: 'black' }} />
-                                        <button className="text-black ms-2">Account</button>
+                                    <Link to={"/Acount/Account"}>
+                                    <div className='flex items-center justify-start p-2 mt-1 text-black hover:bg-black hover:text-white'>
+                                        <FaUser size={18}  />
+                                        <button className="ms-2">Account</button>
                                     </div>
-
-                                    <div onClick={logout} className='flex items-center justify-start mt-1'>
-                                        <IoMdLogOut size={18} style={{ color: 'black' }} />
-                                        <button className="text-red-600 ms-2">Logout</button>
+                                    </Link>
+                                    <div onClick={logout} className='flex items-center justify-start p-2 mt-1 text-red-700   hover:bg-black hover:text-white'>
+                                        <IoMdLogOut size={18}  />
+                                        <button className="ms-2">Logout</button>
                                     </div>
                                 </div>
 

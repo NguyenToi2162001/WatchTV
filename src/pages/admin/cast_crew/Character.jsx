@@ -110,7 +110,7 @@ function Charactor(props) {
     return (
         <div >
             <div className='flex items-center justify-between'>
-            <h1>List Characters</h1>
+            <h1 className='font-bold'>List Characters</h1>
                 <div className='flex items-center'>
                     <TextField
                         variant="outlined"
@@ -133,11 +133,11 @@ function Charactor(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell>Name Charactor</TableCell>
-                            <TableCell>Image</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell  sx={{ fontWeight: 'bold' }}>#</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Name Charactor</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Image</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -158,10 +158,10 @@ function Charactor(props) {
                                 <TableCell>{row.description}</TableCell>
                                 <TableCell>
                                     <IconButton onClick={() => { handleOpen(); setCharactor(row); }} color="primary">
-                                        <MdEdit />
+                                        <MdEdit className='bg-blue-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                     <IconButton color="secondary" onClick={() => { setOpenDelete(true); setIdxoa(row.id); }}>
-                                        <RiDeleteBin5Fill />
+                                        <RiDeleteBin5Fill className='bg-red-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

@@ -102,7 +102,7 @@ function Trailer(props) {
     return (
         <div>
             <div className='flex items-center justify-between'>
-                <h1>List Trailers</h1>
+                <h1 className='font-bold'>List Trailers</h1>
                 <div className='flex items-center'>
                     <TextField
                         variant="outlined"
@@ -125,10 +125,10 @@ function Trailer(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell>Name Movie</TableCell>
-                            <TableCell>Trailer URL</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>#</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Name Movie</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Trailer URL</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -141,10 +141,10 @@ function Trailer(props) {
                                 <TableCell>{row.trailerURL}</TableCell>
                                 <TableCell>
                                     <IconButton onClick={() => { handleOpen(); setTrailer(row); }} color="primary">
-                                        <MdEdit />
+                                        <MdEdit className='bg-blue-700 text-white p-1 border rounded-lg'/>
                                     </IconButton>
                                     <IconButton color="secondary" onClick={() => { setOpenDelete(true); setIdxoa(row.id); }}>
-                                        <RiDeleteBin5Fill />
+                                        <RiDeleteBin5Fill className='bg-red-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

@@ -105,7 +105,7 @@ function Episode(props) {
     return (
         <div>
             <div className='flex items-center justify-between'>
-                <h1>List Episodes</h1>
+                <h1 className='font-bold'>List Episodes</h1>
                 <div className='flex items-center'>
                     <TextField
                         variant="outlined"
@@ -128,11 +128,11 @@ function Episode(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell>Episodes Number</TableCell>
-                            <TableCell>Episode URL</TableCell>
-                            <TableCell>Name Movie</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>#</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Episodes Number</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Episode URL</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Name Movie</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -146,10 +146,10 @@ function Episode(props) {
                                 <TableCell>{getObjectById(row.idMovie, movies)?.name}</TableCell>
                                 <TableCell>
                                     <IconButton onClick={() => { handleOpen(); setEpisode(row); }} color="primary">
-                                        <MdEdit />
+                                        <MdEdit className='bg-blue-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                     <IconButton color="secondary" onClick={() => { setOpenDelete(true); setIdxoa(row.id); }}>
-                                        <RiDeleteBin5Fill />
+                                        <RiDeleteBin5Fill className='bg-red-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

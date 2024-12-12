@@ -117,7 +117,7 @@ function Categories(props) {
     return (
         <div>
             <div className='flex items-center justify-between'>
-                <h1>List Categories</h1>
+                <h1 className='font-bold'>List Categories</h1>
                 <div className='flex items-center'>
                     <TextField
                         variant="outlined"
@@ -208,10 +208,10 @@ function Categories(props) {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>#</TableCell>
-                                <TableCell>Name Category</TableCell>
-                                <TableCell>Description</TableCell>
-                                <TableCell>Action</TableCell>
+                                <TableCell  sx={{ fontWeight: 'bold' }}>#</TableCell>
+                                <TableCell  sx={{ fontWeight: 'bold' }}>Name Category</TableCell>
+                                <TableCell  sx={{ fontWeight: 'bold' }}>Description</TableCell>
+                                <TableCell  sx={{ fontWeight: 'bold' }}>Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -224,10 +224,10 @@ function Categories(props) {
                                     <TableCell>{row.description}</TableCell>
                                     <TableCell>
                                         <IconButton onClick={() => { handleOpen(); setnewCategory(row); }} color="primary">
-                                            <MdEdit />
+                                            <MdEdit  className='bg-blue-700 text-white p-1 border rounded-lg' />
                                         </IconButton>
                                         <IconButton color="secondary" onClick={() => { setOpenDelete(true); setIdxoa(row.id); }}>
-                                            <RiDeleteBin5Fill />
+                                            <RiDeleteBin5Fill className='bg-red-700 text-white p-1 border rounded-lg' />
                                         </IconButton>
                                     </TableCell>
                                 </TableRow>

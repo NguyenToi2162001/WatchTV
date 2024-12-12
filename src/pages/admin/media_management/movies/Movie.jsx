@@ -213,7 +213,7 @@ function Movie(props) {
     return (
         <div>
             <div className='flex items-center justify-between'>
-                <h1>List Movies</h1>
+                <h1 className='font-bold'>List Movies</h1>
                 <TextField
                     variant="outlined"
                     placeholder="Enter keywords..."
@@ -234,16 +234,16 @@ function Movie(props) {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell>Image</TableCell>
-                            <TableCell>Name Movie</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Duration</TableCell>
-                            <TableCell>Author</TableCell>
-                            <TableCell>Plan</TableCell>
-                            <TableCell>Categories</TableCell>
-                            <TableCell>Entities</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>#</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Image</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Name Movie</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Description</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Duration</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Author</TableCell>
+                            {/* <TableCell>Plan</TableCell> */}
+                            <TableCell sx={{ fontWeight: 'bold' }}>Categories</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Entities</TableCell>
+                            <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -263,7 +263,7 @@ function Movie(props) {
                                 <TableCell>{row.description}</TableCell>
                                 <TableCell>{row.duration}</TableCell>
                                 <TableCell>{getObjectById(row.authorID, authors)?.name}</TableCell>
-                                <TableCell>{getObjectById(row.planID, plans)?.title}</TableCell>
+                                {/* <TableCell>{getObjectById(row.planID, plans)?.title}</TableCell> */}
                                 <TableCell >
                                     <Tooltip
                                         title={
@@ -308,10 +308,10 @@ function Movie(props) {
                                 </TableCell>
                                 <TableCell >
                                     <IconButton onClick={() => { handleOpen(); setMovie(row); }} color="primary">
-                                        <MdEdit />
+                                        <MdEdit className='bg-blue-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                     <IconButton onClick={() => { setOpenDelete(true); setIdxoa(row.id); }} color="secondary" >
-                                        <RiDeleteBin5Fill />
+                                        <RiDeleteBin5Fill className='bg-red-700 text-white p-1 border rounded-lg' />
                                     </IconButton>
                                 </TableCell>
                             </TableRow>

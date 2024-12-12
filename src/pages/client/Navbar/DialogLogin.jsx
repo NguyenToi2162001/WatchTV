@@ -1,6 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { LuUser2 } from "react-icons/lu";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import { signInWithPopup } from "firebase/auth";
+import { googleProvider, auth } from "../../../config/firebase";
+import {ROLES} from '../../../utils/Constants';
+import {addDocument} from '../../../services/FirebaseService'
+
 import {
     Dialog, DialogTitle, DialogContent, DialogActions,
     TextField, Button, Typography, InputAdornment
@@ -25,7 +30,7 @@ function DialogLogin({ open, setOpen, handleOpenSignUp }) {
     const validateForm = () => {
         const newErrors = {};
         let isValid = true;
-    
+
         // Kiểm tra email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!email) {
@@ -35,17 +40,17 @@ function DialogLogin({ open, setOpen, handleOpenSignUp }) {
             newErrors.email = "Please enter a valid email address.";
             isValid = false;
         }
-    
+
         // Kiểm tra password
         if (!password) {
             newErrors.password = "Password is required.";
             isValid = false;
         }
-    
+
         setErrors(newErrors);
         return isValid;
     };
-    
+
 
     const handleLogin = () => {
         // Tìm tài khoản trùng khớp email và password
@@ -63,6 +68,34 @@ function DialogLogin({ open, setOpen, handleOpenSignUp }) {
             }
         }
 
+    };
+
+    // Google sign-in
+    const signInWithGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
+            const existingCustomer = accounts.find(customer => customer.email === user.email);
+            let loggedInCustomer;
+
+            if (!existingCustomer) {
+                const newCustomer = {
+                    username: user.displayName,
+                    imgUrl: user.photoURL,
+                    role: ROLES.USER,
+                    email : user.email
+                };
+           const newAccount =  await addDocument('Accounts', newCustomer);
+                loggedInCustomer = newAccount;
+            } else {
+                loggedInCustomer = existingCustomer;
+            }
+           login(loggedInCustomer);
+           handleClose()
+                 
+        } catch (error) {
+           
+        }
     };
 
     return (
@@ -148,7 +181,7 @@ function DialogLogin({ open, setOpen, handleOpenSignUp }) {
                         <hr class="flex-grow border-t border-gray-300" />
                     </div>
                     <div className='flex items-center justify-center'>
-                        <button class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 text-white py-2 px-6 rounded-md">
+                        <button onClick={signInWithGoogle} class="bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 text-white py-2 px-6 rounded-md">
                             G Continue with Google
                         </button>
                     </div>

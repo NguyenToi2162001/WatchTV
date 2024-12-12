@@ -15,6 +15,8 @@ import { EpisodesProvider } from './context/EpisodesProvider';
 import { TrailerProvider } from './context/TrailersProvider';
 import { SignUpsProvider } from './context/SignUpProvider';
 import { AuthsProvider } from './context/AuthsProvider';
+import { PeaturesProvider } from './context/PeaturesProvider';
+import { PackagesProvider } from './context/PackagesProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,13 +30,17 @@ root.render(
                 <PlansProvider>
                   <MoviesProvider>
                     <EpisodesProvider>
-                     <TrailerProvider>
-                    <SignUpsProvider>
-                   <AuthsProvider>
-                   <App />
-                   </AuthsProvider>
-                    </SignUpsProvider>
-                     </TrailerProvider>
+                      <TrailerProvider>
+                        <SignUpsProvider>
+                          <AuthsProvider>
+                            <PeaturesProvider>
+                              <PackagesProvider>
+                                <App />
+                              </PackagesProvider>
+                            </PeaturesProvider>
+                          </AuthsProvider>
+                        </SignUpsProvider>
+                      </TrailerProvider>
                     </EpisodesProvider>
                   </MoviesProvider>
                 </PlansProvider>
