@@ -9,5 +9,14 @@ export const getMoviesRents = (plans, movies,count) => {
   
     return filteredMovies; // Trả về danh sách phim đã lọc
   };
+
+  export const getPeatureRents = (plans, peatures,count) => {
+    
+    // Lọc peature có planid tương ứng và có lever > 3
+    const filteredPeatures = peatures?.filter(peature => getObjectById(peature.planID,plans)?.lever === count);
+  
+    return filteredPeatures; // Trả về danh sách phim đã lọc
+  };
+  
   
 

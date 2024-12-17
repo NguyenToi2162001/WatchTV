@@ -11,7 +11,6 @@ import DialogLogin from './DialogLogin';
 import DialogSignUp from './DialogSignUp';
 import logo from "../../../assets/images/rim.png";
 
-
 const inner = {
     username: "",
     email: "",
@@ -103,13 +102,13 @@ export default function Header() {
                 <div>
                     {user ? (
                         <div className="flex items-center">
-                            <button className='bg-amber-400  px-2 py-1 rounded-md text-white hover:bg-amber-800 text-sm' > ĐĂNG KÝ GÓI</button>
+                            <Link to="/Detail/Packagemovie"><button className='bg-amber-400  px-2 py-1 rounded-md text-white hover:bg-amber-800 text-sm' > ĐĂNG KÝ GÓI</button></Link>
                             <IoIosSearch size={20} style={{ color: 'white', marginLeft: '10px' }} />
 
                             <div className="ms-2 relative  group menu-container">
                                 <div className='flex items-center menu-trigger'>
                                     <img
-                                        src="https://cdn2.fptshop.com.vn/unsafe/800x0/avatar_anime_nam_cute_16_7ea91bf94c.jpg"
+                                        src={user.imgUrl}
                                         alt="User Avatar"
                                         className="w-8 h-8 rounded-full mr-2 ms-2" />
                                     <FaChevronDown onClick={toggleMenu} />
@@ -120,7 +119,7 @@ export default function Header() {
                                 >
                                     <div className='flex items-center justify-start'>
                                         <img
-                                            src="https://cdn2.fptshop.com.vn/unsafe/800x0/avatar_anime_nam_cute_16_7ea91bf94c.jpg"
+                                            src={user.imgUrl}
                                             alt="User Avatar"
                                             className="w-8 h-8 rounded-full mr-2 ms-2"
                                         />
@@ -128,17 +127,17 @@ export default function Header() {
                                     </div>
                                     <hr className="border-black border-t-1 mt-2" />
                                     <div className='flex items-center justify-start p-2 mt-1 text-black  hover:bg-black hover:text-white'>
-                                        <HiLibrary size={18}  />
+                                        <HiLibrary size={18} />
                                         <button className=" ms-2">Movie Library Management</button>
                                     </div>
                                     <Link to={"/Acount/Account"}>
-                                    <div className='flex items-center justify-start p-2 mt-1 text-black hover:bg-black hover:text-white'>
-                                        <FaUser size={18}  />
-                                        <button className="ms-2">Account</button>
-                                    </div>
+                                        <div className='flex items-center justify-start p-2 mt-1 text-black hover:bg-black hover:text-white'>
+                                            <FaUser size={18} />
+                                            <button className="ms-2">Account</button>
+                                        </div>
                                     </Link>
                                     <div onClick={logout} className='flex items-center justify-start p-2 mt-1 text-red-700   hover:bg-black hover:text-white'>
-                                        <IoMdLogOut size={18}  />
+                                        <IoMdLogOut size={18} />
                                         <button className="ms-2">Logout</button>
                                     </div>
                                 </div>

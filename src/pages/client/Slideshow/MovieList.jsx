@@ -14,11 +14,14 @@ function MovieList({ title, data }) {
             <div className="grid grid-cols-2 p-15 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 md:p-9">
                 {data.map((element) => (
                     <div className="relative group">
-                        <img
-                            className="w-10/12 h-5/6 object-cover rounded-lg"
-                            src={element.imgUrl}
-                            alt="#"
-                        />
+                        <div className="relative overflow-hidden w-10/12 h-5/6">
+                            <img
+                                className="object-cover rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-110"
+                                src={element.imgUrl}
+                                alt="#"
+                            />
+                        </div>
+
 
                         {/* Thẻ div hiện khi hover */}
                         <div

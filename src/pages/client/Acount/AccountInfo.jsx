@@ -1,125 +1,141 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     TextField,
-    Select,
-    MenuItem,
-    InputLabel,
     FormControl,
     Button,
-    Box,
-    Typography, Grid, Divider
+    FormLabel, RadioGroup, FormControlLabel, Radio,
 } from '@mui/material';
-function AccountInfo(props) {
+import { useAuth } from "../../../context/AuthsProvider";
+import { addDocument, deleteDocument, updateDocument } from '../../../services/FirebaseService';
+import { useNotification } from "../../../context/NotificationProvider";
+import { useAccount } from '../../../context/AccountsProvider';
+
+function AccountInfo() {
+    const { login } = useAuth();
+    const showNotification = useNotification();
+    const { account , setAccount } = useAccount();
+
+    const handleInput = (event) => {
+        const { name, value } = event.target;
+        setAccount((prevUsers) => ({ ...prevUsers, [name]: value }));
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevent page reload
+
+        try {
+            if (account.id) {
+                await updateDocument("Accounts", account);
+                showNotification('User has been updated successfully!', "info");
+                login(account);
+            } else {
+                showNotification('No user ID found, unable to update.', "error");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            showNotification('An error occurred while updating the user.', "error");
+        }
+    };
     return (
-        <div>
-            <Box
-                sx={{
-                    flex: 1,
-                    p: 2,
-                    bgcolor: '#fff',
-                    boxShadow: 3,
-                    borderRadius: 2,
-                }}
-            >
-                <Box
-                    component="form"
-                    sx={{
-                        p: 3,
-                        bgcolor: '#fff',
-                        boxShadow: 3,
-                        borderRadius: 2,
-                        maxWidth: { xs: '100%', sm: '600px' }, // Full width on mobile, fixed width on larger screens
-                        mx: 'auto',
-                    }}
-                >
-                    <Typography variant="h5" align="center" gutterBottom>
-                        Account Information
-                    </Typography>
-
-                    <Grid container spacing={2}>
-                        {/* Full Name */}
-                        <Grid item xs={12}>
+            <div className="flex-1">
+                <div className="bg-white p-6">
+                    <h2 className="text-2xl font-semibold mb-6">Account Information</h2>
+                    <form className="grid gap-6" onSubmit={handleSubmit}>
+                        <TextField
+                            variant="outlined"
+                            className="bg-gray-50 rounded-md"
+                            name="fullName"
+                            value={account?.fullName || ""}
+                            InputProps={{
+                                style: { borderRadius: "8px" },
+                            }}
+                            fullWidth
+                            onChange={handleInput}
+                        />
+                        <div className="flex gap-4">
                             <TextField
-                                label="Full Name"
-                                name="fullname"
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-
-                        {/* Username */}
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Username"
                                 name="username"
+                                variant="outlined"
+                                value={account?.username || ""}
+                                className="bg-gray-50 rounded-md"
+                                InputProps={{
+                                    style: { borderRadius: "8px" },
+                                }}
+                                disabled
                                 fullWidth
-                                required
                             />
-                        </Grid>
-
-                        {/* Email */}
-                        <Grid item xs={12}>
                             <TextField
-                                label="Email"
-                                type="email"
                                 name="email"
+                                variant="outlined"
+                                value={account?.email || ""}
+                                className="bg-gray-50 rounded-md"
+                                InputProps={{
+                                    style: { borderRadius: "8px" },
+                                }}
+                                disabled
                                 fullWidth
-                                required
                             />
-                        </Grid>
+                        </div>
+                        <FormControl>
+                            <FormLabel className="text-gray-600 font-medium">Gender</FormLabel>
+                            <RadioGroup
+                                row
+                                name="gender"
+                                value={account?.gender || ""}
+                                onChange={handleInput}
 
-                        {/* Gender */}
-                        <Grid item xs={12}>
-                            <FormControl fullWidth required>
-                                <InputLabel>Gender</InputLabel>
-                                <Select name="gender">
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value="male">Male</MenuItem>
-                                    <MenuItem value="female">Female</MenuItem>
-                                    <MenuItem value="other">Other</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-
-                        {/* Phone */}
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Phone"
-                                type="tel"
-                                name="phone"
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-
-                        {/* Password */}
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Password"
-                                type="password"
-                                name="password"
-                                fullWidth
-                                required
-                            />
-                        </Grid>
-
-                        {/* Submit Button */}
-                        <Grid item xs={12}>
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                fullWidth
                             >
-                                Submit
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Box>
-        </div>
+                                <FormControlLabel
+                                    value="male"
+                                    control={<Radio />}
+                                    label="Male"
+                                />
+                                <FormControlLabel
+                                    value="female"
+                                    control={<Radio />}
+                                    label="Female"
+                                />
+                                <FormControlLabel
+                                    value="other"
+                                    control={<Radio />}
+                                    label="Other"
+                                />
+                            </RadioGroup>
+                        </FormControl>
+                        <TextField
+                            label="Phone"
+                            name="phone"
+                            variant="outlined"
+                            className="bg-gray-50 rounded-md"
+                            value={account?.phone || ''}
+                            InputProps={{
+                                style: { borderRadius: "8px" },
+                            }}
+                            onChange={handleInput}
+                            fullWidth
+                        />
+                        <TextField
+                            name="password"
+                            variant="outlined"
+                            value={account?.password || ''}
+                            className="bg-gray-50 rounded-md"
+                            InputProps={{
+                                style: { borderRadius: "8px" },
+                            }}
+                            onChange={handleInput}
+                            fullWidth
+                        />
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className="w-32 bg-blue-500 text-white hover:bg-blue-600 text-sm rounded-md"
+                        >
+                            Update
+                        </Button>
+                    </form>
+                </div>
+            </div>
     );
 }
 

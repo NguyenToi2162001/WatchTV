@@ -12,9 +12,9 @@ import Slideshow from '../Slideshow/Slideshow';
 function Rentedmovies(props) {
     const movies = useContext(ContextMovies);
     const plans = useContext(ContextPlans);
-    const moviesVipSSS = getMoviesRents(plans, movies, "6");
+    const moviesVipSSS = getMoviesRents(plans, movies, "1");
     const moviesRents = getMoviesRents(plans, movies, "4")
-    const moviesGiadinh = getMoviesRents(plans, movies, "7")
+    const moviesGiadinh = getMoviesRents(plans, movies, "3")
     const moviess = [
         { id: 1, title: "Đừng xem nếu bạn không muốn khóc . Muốn chăm sóc bà khi bà Ngoại khi bà bị bệnh ung thư mong để được hưởng tài sản , nhưng rồi cậu nhận ra nhiều điều thiêng liêng còn giá trị hơn tài sản gấp nhiều lần . ", img: "https://assets.glxplay.io/images/w1600/title/gia-tai-cua-ngoai_web_spotlight_a1bfab35380ebb9bac36f26d63023086.jpg" },
         { id: 2, title: " Bà Dương và ông Thoại luôn cố xây dựng hình ảnh gia đình tài giỏi và danh giá trong mắt mọi người. Nhưng dưới lớp vỏ bọc hào nhoáng ấy là những biến cố và “khuyết điểm” đầy bất ngờ.", img: "https://assets.glxplay.io/images/w1600/title/cai-gia-cua-hanh-phuc_web_spotlight_e6c74ae5f6b5265a700e39712344cab4.jpg" },
@@ -48,7 +48,7 @@ function Rentedmovies(props) {
         slidesToShow: 1, // Hiển thị 1 slide mỗi lần
         slidesToScroll: 1, // Trượt 1 slide mỗi lần
         autoplay: true, // Tự động chuyển slide
-        autoplaySpeed: 2000, 
+        autoplaySpeed: 2000,
         prevArrow: <CustomPrevArrow />, // Nút mũi tên trái
         nextArrow: <CustomNextArrow />, // Nút mũi tên phải
     };
@@ -59,11 +59,12 @@ function Rentedmovies(props) {
                 {moviess.map((movie) => (
                     <div key={movie.id} className="relative h-screen">
                         {/* Hình ảnh chiếm toàn bộ chiều cao màn hình */}
-                        <img
-                            src={movie.img}
-                            alt=""
-                            className="w-full h-full object-cover"
-                        />
+                            <img
+                                src={movie.img}
+                                alt=""
+                                className="w-full h-full object-cover"
+                            />
+                  
                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center px-4">
                             {/* Nút hành động */}
                             <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -104,7 +105,7 @@ function Rentedmovies(props) {
                     </div>
                 ))}
             </Slider>
-            <SlideEmotional data={moviesVipSSS} title="Phim Tình Cảm , Lãng Mạn Và Tâm Lý Hấp Dẫn" />
+            <SlideEmotional data={moviesVipSSS} title="Phim Hành Động , Bom Tấn" />
             <Slideshow data={moviesRents} title="Phim Hot Trong Tuần" />
             <Slideshow data={moviesGiadinh} title="Phim Hoạt Hình Gia Đình" />
         </div>
