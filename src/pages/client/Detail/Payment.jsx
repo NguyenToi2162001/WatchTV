@@ -4,9 +4,15 @@ import { FcSimCardChip } from "react-icons/fc";
 import { PiDeviceMobileFill } from "react-icons/pi";
 import { CiShoppingCart } from "react-icons/ci";
 import { GiMoneyStack } from "react-icons/gi";
-import { FaCcPaypal } from "react-icons/fa6";
 import { usePayment } from '../../../context/PaymentsProvider';
+
 function Payment(props) {
+    const {clickedPlanID} = usePayment();
+    
+    const aaa = () =>{
+        console.log(clickedPlanID);
+        
+    }
     return (
         <div className='bg-slate-200'>
             <div class="grid grid-cols-1 lg:grid-cols-2">
@@ -116,6 +122,7 @@ function Payment(props) {
                     </div>
                 </div>
             </div>
+            <p className='text-center' onClick={aaa}>aaa</p>
 
         </div >
     );

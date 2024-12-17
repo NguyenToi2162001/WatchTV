@@ -17,7 +17,6 @@ import { AccountsProvider } from '../../../context/AccountsProvider';
 
 function Account(props) {
     const { user } = useAuth();
-    const location = useLocation();
     const [account, setAccount] = useState({
         id: "",
         fullName: "",
