@@ -2,22 +2,26 @@ import React, { useContext } from 'react';
 import { FaStar } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { ContextEpisodes } from "../../../context/EpisodesProvider"
+import { useParams } from 'react-router-dom';
+import { getEpisodeById } from "../../../services/ResponsitoryService";
 function PlayMovie(props) {
     const episodes = useContext(ContextEpisodes);
-    const firstEpisode = episodes && episodes.length > 0 ? episodes[0] : null;
-    const addcoment = () => {
-        console.log(firstEpisode);
-    }
+    const { id } = useParams();
+
+
+
+
     return (
         <div >
             <div className='h-screen'>
                 <iframe
-                    src={firstEpisode.episodeURL}
+                    src={getEpisodeById(id, episodes)?.episodeURL}
                     className="w-full h-full"
                     style={{ border: 'none' }}
                     allowFullScreen
                     title="Episode Video"
                 />
+
             </div>
             <div className=' bg-gray-950 p-8 gap-5'>
                 <button className='bg-red-800  px-3 py-2 rounded-md text-white text-sm' > Full HD </button>
@@ -27,7 +31,7 @@ function PlayMovie(props) {
                             <input className='w-11/12 h-28 rounded-xl' type="text" />
                         </div>
                         <div className='mt-4'>
-                            <button onClick={addcoment} className='bg-blue-800  px-2 py-2 rounded-md text-white hover:bg-cyan-600 text-sm' > Add Comment</button>
+                            <button className='bg-blue-800  px-2 py-2 rounded-md text-white hover:bg-cyan-600 text-sm' > Add Comment</button>
                         </div>
                     </div>
                     <div>

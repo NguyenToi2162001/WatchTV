@@ -47,7 +47,7 @@ function Slideshow({ title, data }) {
                             {/* Thẻ div hiện khi hover */}
                             <div className="absolute bottom-0 bg-black bg-opacity-50 opacity-0 translate-y-10 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out w-full p-2">
                                 <div className="flex items-center justify-around text-white">
-                                    <Link to="/Detail/DetailMovie">
+                                    <Link to={`/Detail/DetailMovie/${element.id}`}>
                                         <FaPlayCircle size={25} className="hover:text-teal-400 transition-colors duration-300" />
                                     </Link>
                                     <FaHeart size={25} className="hover:text-red-400 transition-colors duration-300" />

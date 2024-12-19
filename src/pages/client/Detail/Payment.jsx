@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { FaRegCreditCard } from "react-icons/fa";
 import { FcSimCardChip } from "react-icons/fc";
 import { PiDeviceMobileFill } from "react-icons/pi";
 import { CiShoppingCart } from "react-icons/ci";
 import { GiMoneyStack } from "react-icons/gi";
-import { usePayment } from '../../../context/PaymentsProvider';
-
+import { useParams } from 'react-router-dom';
+import { ContextPackages } from '../../../context/PackagesProvider';
+import { ContextPlans } from '../../../context/PlansProvider';
+import { getAllObjectById, getObjectById } from '../../../services/ResponsitoryService';
+import { useAuth } from '../../../context/AuthsProvider'
 function Payment(props) {
-    const {clickedPlanID} = usePayment();
-    
-    const aaa = () =>{
-        console.log(clickedPlanID);
-        
+    const packages = useContext(ContextPackages);
+    const plans = useContext(ContextPlans);
+    const [isChooose, setIschoose] = useState(null);
+    const [selectedElement, setSelectedElement] = useState(true);
+    const { id } = useParams();
+    const { user } = useAuth();
+    const list = getAllObjectById(id, packages);
+    const price = getObjectById(id, plans)?.pricePerMonth;
+
+    const priceByMonth = (element) => {
+        return (price * element?.time) / 100 * (100 - element?.discount)
     }
+
+
+
+
     return (
         <div className='bg-slate-200'>
             <div class="grid grid-cols-1 lg:grid-cols-2">
@@ -20,55 +33,35 @@ function Payment(props) {
                     <div class="bg-white rounded-xl p-7">
                         <p className='font-bold ps-3'>Chọn Gói Đăng Ký</p>
                         <hr className='mt-3' />
-                        <div className='flex justify-between px-3 mt-3'>
-                            <div className='flex'>
-                                <input type="checkbox" name="" id="" />
-                                <div className='ms-2'>
-                                    <p className='font-bold'>1 Tháng</p>
-                                    <p className='text-red-600 font-bold'>Giảm 10%</p>
+                        {list.map((element) => (
+                            <div className='flex justify-between px-3 mt-3'>
+                                <div className='flex'>
+                                    <input onClick={() => {
+                                        setIschoose(element);   
+                                    }} type="radio" name="pakage" id="" />
+                                    <div className='ms-2'>
+                                        <p className='font-bold'>{element.time}/tháng</p>
+                                        <p className='text-red-600 font-bold'>Giảm {element.discount}%</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p className='font-bold'>{priceByMonth(element).toLocaleString('vi-VN')} <sup>VNĐ</sup></p>
+                                    <span class="line-through">{(price * element.time).toLocaleString('vi-VN')}<sup>VNĐ</sup></span>
                                 </div>
                             </div>
-                            <div>
-                                <p className='font-bold'>180.000 VNĐ</p>
-                                <span class="line-through">200.000 VNĐ</span>
-                            </div>
-                        </div>
-                        <div className='flex justify-between px-3 mt-3'>
-                            <div className='flex'>
-                                <input type="checkbox" name="" id="" />
-                                <div className='ms-2'>
-                                    <p className='font-bold'>6 Tháng</p>
-                                    <p className='text-red-600 font-bold'>Giảm 15%</p>
-                                </div>
-                            </div>
-                            <div>
-                                <p className='font-bold'>1.020.000 VNĐ</p>
-                                <span class="line-through">1.200.000 VNĐ</span>
-                            </div>
-                        </div>
-                        <div className='flex justify-between px-3 mt-3'>
-                            <div className='flex'>
-                                <input type="checkbox" name="" id="" />
-                                <div className='ms-2'>
-                                    <p className='font-bold'>12 Tháng</p>
-                                    <p className='text-red-600 font-bold'>Giảm 10%</p>
-                                </div>
-                            </div>
-                            <div>
-                                <p className='font-bold'>1.680.000 VNĐ</p>
-                                <span class="line-through">1.800.000 VNĐ</span>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                     <div class="bg-white rounded-xl p-7">
                         <p className='font-bold ps-3'>THÔNG TIN THANH TOÁN</p>
                         <hr className='mt-3' />
                         <div className='p-3'>
-                            <div className='mt-2'>
-                                <span class="font-bold">Tài Khoản:</span> Laimanh@gmail.com
+                            <div className=' flex items-centermt-2'>
+                                <span class="font-bold">Tài Khoản: </span> 
+                                <p className='ms-2 text-amber-400'>{user?.email}</p>
                             </div>
-                            <div className='mt-2'>
-                                <span class="font-bold">Tên Gói:</span> Siêu Việt
+                            <div className='flex items-center mt-2'>
+                                <span class="font-bold">Tên Gói:</span>
+                                <p className='ms-2 text-lime-500'> {getObjectById(id, plans)?.title}</p>
                             </div>
                             <div className='mt-2'>
                                 <span class="font-bold">Ngày Hiệu Lực:</span> 12/12/2024
@@ -78,13 +71,13 @@ function Payment(props) {
                             </div>
                             <div className='flex mt-2'>
                                 <span class="font-bold">Khuyến Mãi:</span>
-                                <p className='font-bold text-red-600 ms-1'> 10%</p>
+                                <p className='font-bold text-red-600 ms-1'> {isChooose?.discount}%</p>
                             </div>
                         </div>
                         <hr />
                         <div className='flex mt-2 p-3'>
-                            <span class="font-bold">Tổng Cộng:</span>
-                            <p className='font-bold text-red-600 ms-1'> 1.800.000 VNĐ</p>
+                            <span class="font-bold">Tổng Cộng:</span> 
+                            <p className='font-bold text-red-600 ms-1'>{priceByMonth(isChooose).toLocaleString('vi-VN')} <sup>VNĐ</sup></p>
                         </div>
                     </div>
                 </div>
@@ -122,7 +115,6 @@ function Payment(props) {
                     </div>
                 </div>
             </div>
-            <p className='text-center' onClick={aaa}>aaa</p>
 
         </div >
     );

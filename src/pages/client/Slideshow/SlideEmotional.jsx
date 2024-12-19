@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import "swiper/css";
@@ -11,8 +11,11 @@ import { FaPlus } from "react-icons/fa";
 import { ContextMovies } from "../../../context/MoviesProvider";
 import { ContextPlans } from "../../../context/PlansProvider";
 import { getObjectById } from "../../../services/ResponsitoryService";
+import { Link } from 'react-router-dom';
 function SlideEmotional({ title, data }) {
     const plans = useContext(ContextPlans);
+    const [idMovie , setIdMovie] = useState(null);
+  
     return (
         <div>
             <h1 className="text-xl text-white font-bold bg-black py-6 ps-3">{title}</h1>
@@ -52,7 +55,9 @@ function SlideEmotional({ title, data }) {
                      transition-all duration-500 ease-out w-full p-2"
                             >
                                 <div className="flex items-center justify-around text-white">
-                                    <FaPlayCircle size={25} className="hover:text-teal-400 transition-colors duration-300" />
+                                    <Link to={`/Detail/DetailMovie/${element.id}`}>
+                                        <FaPlayCircle size={25} className="hover:text-teal-400 transition-colors duration-300" />
+                                    </Link>
                                     <FaHeart size={25} className="hover:text-red-400 transition-colors duration-300" />
                                     <FaPlus size={25} className="hover:text-amber-400 transition-colors duration-300" />
                                 </div>

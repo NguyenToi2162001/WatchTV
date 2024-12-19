@@ -22,10 +22,10 @@ function ClientRouters(props) {
             <Route path="/Home/Promotion" element={<Promotion />}></Route>
             <Route path="/Home/Blog" element={<Blog />}></Route>
             <Route path="/Support/Support" element={<Support />}></Route>
-            <Route path="/Detail/DetailMovie" element={<DetailMovie/>}></Route>
+            <Route path="/Detail/DetailMovie/:id" element={<DetailMovie/>}></Route>
             <Route path="/Detail/Packagemovie" element={<Packagemovie/>}></Route>
-            <Route path="/Detail/Payment" element={<Payment/>}></Route>
-            <Route path="/Detail/PlayMovie" element={<PlayMovie/>}></Route>
+            <Route path="/Detail/Payment/:id" element={<Payment/>}></Route>
+            <Route path="/Detail/PlayMovie/:id" element={<PlayMovie/>}></Route>
             <Route path="/Acount/Account" element={<Account />}>
                 <Route path="info" element={<AccountInfo />} />
                 <Route path="library" element={<LibraryManagement />} />
