@@ -7,7 +7,7 @@ import Slideshow from '../Slideshow/Slideshow';
 import { getMoviesRents, getObjectById } from "../../../services/ResponsitoryService";
 import { ContextMovies } from "../../../context/MoviesProvider";
 import { ContextPlans } from "../../../context/PlansProvider";
-import React, { useContext } from 'react';
+import React, { useContext ,useEffect} from 'react';
 import { Link, useParams } from "react-router-dom";
 function DetailMovie(props) {
     const movies = useContext(ContextMovies);
@@ -16,7 +16,10 @@ function DetailMovie(props) {
     const moviesVipSS = getMoviesRents(plans, movies, "4");
     const { id } = useParams();
 
-
+    useEffect(() => {
+        // Cuộn lên đầu trang khi trang được render
+        window.scrollTo(0, 0);
+      }, []); // [] để chỉ chạy khi component được mount
     return (
         <div>
             <div className="relative h-screen">

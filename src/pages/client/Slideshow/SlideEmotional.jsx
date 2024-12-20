@@ -11,11 +11,28 @@ import { FaPlus } from "react-icons/fa";
 import { ContextMovies } from "../../../context/MoviesProvider";
 import { ContextPlans } from "../../../context/PlansProvider";
 import { getObjectById } from "../../../services/ResponsitoryService";
+import { addDocument } from "../../../services/FirebaseService"
+import { useAuth } from '../../../context/AuthsProvider'
+import { useNotification } from "../../../context/NotificationProvider";
 import { Link } from 'react-router-dom';
 function SlideEmotional({ title, data }) {
     const plans = useContext(ContextPlans);
     const [idMovie , setIdMovie] = useState(null);
-  
+    const { user } = useAuth();
+    const showNotification = useNotification();
+    const addFmovie = async (element) => {
+        // Cập nhật favoriteMovie trước khi gọi addDocument
+        const favoriteMovie = {
+            movieID: element?.id,
+            accountId: user?.id, // Gán accountId nếu có user
+        };
+
+        console.log(favoriteMovie);
+
+        // Gọi addDocument sau khi đảm bảo favoriteMovie đã có dữ liệu đúng
+        await addDocument("Favorites", favoriteMovie);
+        showNotification('Movie add successfully!', "succes");
+    }
     return (
         <div>
             <h1 className="text-xl text-white font-bold bg-black py-6 ps-3">{title}</h1>
@@ -46,8 +63,6 @@ function SlideEmotional({ title, data }) {
                                 />
                             </div>
 
-
-
                             {/* Thẻ div hiện khi hover */}
                             <div
                                 className="absolute bottom-0 bg-black 
@@ -59,7 +74,7 @@ function SlideEmotional({ title, data }) {
                                         <FaPlayCircle size={25} className="hover:text-teal-400 transition-colors duration-300" />
                                     </Link>
                                     <FaHeart size={25} className="hover:text-red-400 transition-colors duration-300" />
-                                    <FaPlus size={25} className="hover:text-amber-400 transition-colors duration-300" />
+                                    <FaPlus onClick={() => addFmovie(element)} size={25} className="hover:text-amber-400 transition-colors duration-300" />
                                 </div>
                                 <div className="ms-2 mt-2 flex justify-center">
                                     <h1 className="text-sm text-white font-bold">{element.name}</h1>

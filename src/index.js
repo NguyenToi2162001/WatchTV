@@ -17,6 +17,7 @@ import { SignUpsProvider } from './context/SignUpProvider';
 import { AuthsProvider } from './context/AuthsProvider';
 import { PeaturesProvider } from './context/PeaturesProvider';
 import { PackagesProvider } from './context/PackagesProvider';
+import { FavoritesProvider } from './context/FavoritesProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -35,7 +36,9 @@ root.render(
                           <AuthsProvider>
                             <PeaturesProvider>
                               <PackagesProvider>
-                                <App />
+                                <FavoritesProvider>
+                                  <App />
+                                </FavoritesProvider>
                               </PackagesProvider>
                             </PeaturesProvider>
                           </AuthsProvider>

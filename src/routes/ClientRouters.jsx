@@ -14,6 +14,7 @@ import DetailMovie from '../pages/client/Detail/DetailMovie';
 import Packagemovie from '../pages/client/Detail/Packagemovie';
 import Payment from '../pages/client/Detail/Payment';
 import PlayMovie from '../pages/client/Detail/PlayMovie';
+import Favorite from '../pages/client/Favorite/Favorite';
 function ClientRouters(props) {
     return (
         <Routes>
@@ -26,7 +27,8 @@ function ClientRouters(props) {
             <Route path="/Detail/Packagemovie" element={<Packagemovie/>}></Route>
             <Route path="/Detail/Payment/:id" element={<Payment/>}></Route>
             <Route path="/Detail/PlayMovie/:id" element={<PlayMovie/>}></Route>
-            <Route path="/Acount/Account" element={<Account />}>
+            <Route path="/Detail/PlayMovie/:id" element={<PlayMovie/>}></Route>
+            <Route path="/Favorite/Favorite" element={<Favorite />}>
                 <Route path="info" element={<AccountInfo />} />
                 <Route path="library" element={<LibraryManagement />} />
                 <Route path="subscription" element={<Subcription />} />

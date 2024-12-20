@@ -25,29 +25,33 @@ function Packagemovie() {
     return (
         <div className='bg-slate-200'>
             <p className='text-center text-2xl font-bold pt-3'>Chọn gói WatchTV</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 p-8">
-                {plans?.sort((a, b) => a.lever - b.lever).map((plan) => (
-                    <div
-                        key={plan.id} // Sử dụng ID của plan làm key duy nhất
-                        className={`border border-black-1 px-6 py-10 rounded-lg ${clickedPlanID === plan.id ? 'bg-gray-300' : 'bg-white'}`}
-                        onClick={() => handleClick(plan.id)} // Gọi handleClick với plan.id
-                    >
-                        <p className="font-bold text-xl">{plan?.title}</p>
-                        <p className="font-bold text-xl">{plan?.pricePerMonth}/month</p>                 
-                        
-                        <hr className='mt-2'/>
-                        {getAllObjectById(plan?.id, peatures)?.map((feature) => (
-                            <div key={feature.id || feature.text} className="flex items-center mt-2 gap-3">
-                                {feature.availiable ? (
-                                    <MdOutlineCancel className="text-red-700" size={23} />
-                                ) : (
-                                    <FaCheck className="text-green-600" size={23} />
-                                )}
-                                <p className="flex-1">{feature.text}</p>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-8">
+                {plans
+                    ?.filter(plan => plan.lever >= 1 && plan.lever <= 4) // Lọc các plan có lever từ 1 đến 4
+                    .sort((a, b) => a.lever - b.lever) // Sắp xếp theo lever tăng dần
+                    .map(plan => (
+                        <div
+                            key={plan.id} // Sử dụng ID của plan làm key duy nhất
+                            className={`border border-black-1 px-6 py-10 rounded-lg ${clickedPlanID === plan.id ? 'bg-gray-300' : 'bg-white'}`}
+                            onClick={() => handleClick(plan.id)} // Gọi handleClick với plan.id
+                        >
+                            <p className="font-bold text-xl">{plan?.title}</p>
+                            <p className="font-bold text-xl">{plan?.pricePerMonth}/month</p>
+
+                            <hr className='mt-2' />
+                            {getAllObjectById(plan?.id, peatures)?.map(feature => (
+                                <div key={feature.id || feature.text} className="flex items-center mt-2 gap-3">
+                                    {feature.availiable ? (
+                                        <MdOutlineCancel className="text-red-700" size={23} />
+                                    ) : (
+                                        <FaCheck className="text-green-600" size={23} />
+                                    )}
+                                    <p className="flex-1">{feature.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+
             </div>
 
             <div className={'flex justify-center pb-4'}>

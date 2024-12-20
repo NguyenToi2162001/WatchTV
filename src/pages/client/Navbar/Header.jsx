@@ -126,10 +126,12 @@ export default function Header() {
                                         <p className="text-black">{user.email}</p>
                                     </div>
                                     <hr className="border-black border-t-1 mt-2" />
-                                    <div className='flex items-center justify-start p-2 mt-1 text-black  hover:bg-black hover:text-white'>
-                                        <HiLibrary size={18} />
-                                        <button className=" ms-2">Movie Library Management</button>
-                                    </div>
+                                    <Link to={"/Favorite/Favorite"}>
+                                        <div className='flex items-center justify-start p-2 mt-1 text-black  hover:bg-black hover:text-white'>
+                                            <HiLibrary size={18} />
+                                            <button className=" ms-2">Movie Library Management</button>
+                                        </div>
+                                    </Link>
                                     <Link to={"/Acount/Account"}>
                                         <div className='flex items-center justify-start p-2 mt-1 text-black hover:bg-black hover:text-white'>
                                             <FaUser size={18} />
