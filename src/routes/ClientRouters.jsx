@@ -23,19 +23,20 @@ function ClientRouters(props) {
             <Route path="/Home/Promotion" element={<Promotion />}></Route>
             <Route path="/Home/Blog" element={<Blog />}></Route>
             <Route path="/Support/Support" element={<Support />}></Route>
-            <Route path="/Detail/DetailMovie/:id" element={<DetailMovie/>}></Route>
-            <Route path="/Detail/Packagemovie" element={<Packagemovie/>}></Route>
-            <Route path="/Detail/Payment/:id" element={<Payment/>}></Route>
-            <Route path="/Detail/PlayMovie/:id" element={<PlayMovie/>}></Route>
-            <Route path="/Detail/PlayMovie/:id" element={<PlayMovie/>}></Route>
-            <Route path="/Favorite/Favorite" element={<Favorite />}>
+            <Route path="/Detail/DetailMovie/:id" element={<DetailMovie />}></Route>
+            <Route path="/Detail/Packagemovie" element={<Packagemovie />}></Route>
+            <Route path="/Favorite/Favorite" element={<Favorite />}></Route>
+            <Route path="/Detail/Payment/:id" element={<Payment />}></Route>
+            <Route path="/Detail/PlayMovie/:id" element={<PlayMovie />}></Route>
+            <Route path="/Detail/PlayMovie/:id" element={<PlayMovie />}></Route>
+            <Route path="/Acount/Account" element={<Account />}>
                 <Route path="info" element={<AccountInfo />} />
                 <Route path="library" element={<LibraryManagement />} />
                 <Route path="subscription" element={<Subcription />} />
                 <Route path="offer" element={<Offer />} />
                 <Route path="home" element={<Main />} />
             </Route>
-            
+
         </Routes>
     );
 }

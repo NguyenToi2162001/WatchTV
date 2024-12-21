@@ -10,14 +10,17 @@ import { ContextPlans } from "../../../context/PlansProvider";
 import React, { useContext ,useEffect, useState} from 'react';
 import { Link, useParams } from "react-router-dom";
 import {addDocument} from '../../../services/FirebaseService';
+import { useAuth } from '../../../context/AuthsProvider';
 function DetailMovie(props) {
     const movies = useContext(ContextMovies);
     const plans = useContext(ContextPlans);
     const moviesRents = getMoviesRents(plans, movies, "3");
     const moviesVipSS = getMoviesRents(plans, movies, "4");
+    const { user } = useAuth();
     let { id } = useParams();
     const inner = {
-        movieID : id 
+        movieID : id ,
+        accountId : user?.id
     }
   
     const [movieWatched , setMovieWatched] = useState(inner)

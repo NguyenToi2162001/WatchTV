@@ -19,12 +19,16 @@ function Favorite(props) {
     const [idxoa, setIdxoa] = useState(null)
     const [openDelete, setOpenDelete] = useState(false);
     const showNotification = useNotification();
-    // Tạo danh sách các bộ phim yêu thích
-    const list = favorites.map(favorite => {
-        return movies?.find(movie => movie?.id === favorite?.movieID);
-    }).filter(movie => movie !== undefined); // Loại bỏ các phần tử không tồn tại
 
-    // Kiểm tra nếu có phần tử nào trong favorites có accountId trùng với userId
+    const list = favorites
+        .filter(favorite => favorite.accountId === userId)
+        .map(favorite => movies?.find(movie => movie?.id === favorite?.movieID))
+        .filter(movie => movie !== undefined);
+
+    const listMovieWatched = moviewatcheds
+        .filter(moviewatched => moviewatched.accountId === userId)
+        .map(moviewatched => movies?.find(movie => movie?.id === moviewatched?.movieID))
+        .filter(movie => movie !== undefined);
     const isUserMatch = favorites?.some(movie => movie?.accountId === userId);
 
     const deleteItem = async () => {
@@ -33,13 +37,10 @@ function Favorite(props) {
         setOpenDelete(false);
 
     }
-    console.log(moviewatcheds.movieID);
-    //Tạo danh sách các bộ phim đã xem
-    const listMovieWatched = moviewatcheds.map(moviewatched => {
-        return movies?.find(movie => movie?.id === moviewatched?.movieID);
-    }).filter(movie => movie !== undefined); // Loại bỏ các phần tử không tồn tại
 
-    console.log(listMovieWatched);
+    //Tạo danh sách các bộ phim đã xem
+
+
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-700 p-4 md:p-6 rounded-lg shadow-lg">

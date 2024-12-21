@@ -16,12 +16,7 @@ import { useAuth } from '../../../context/AuthsProvider'
 import { useNotification } from "../../../context/NotificationProvider";
 import { ContextFavorites } from '../../../context/FavoritesProvider'
 function Slideshow({ title, data }) {
-    const inner = {
-        movieID: '',
-        accountId: ''
-    };
     const showNotification = useNotification();
-    const [favoriteMovie, setFavoriteMovie] = useState(inner);
     const { user } = useAuth();
     const plans = useContext(ContextPlans);
     const favorites = useContext(ContextFavorites);
@@ -36,6 +31,7 @@ function Slideshow({ title, data }) {
         };
 
         const idFavorite = getFavoriteMovieById(element.id, favorites);
+        
         if (idFavorite) {
             showNotification('Movie Đã có!', "error")
         }
@@ -44,7 +40,6 @@ function Slideshow({ title, data }) {
             await addDocument("Favorites", favoriteMovie);
             showNotification('Movie add successfully!', "success");
         }
-
 
     }
 
