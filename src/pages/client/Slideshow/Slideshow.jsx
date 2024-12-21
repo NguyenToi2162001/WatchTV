@@ -9,11 +9,12 @@ import { FaPlayCircle } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { ContextPlans } from "../../../context/PlansProvider";
-import { getObjectById } from "../../../services/ResponsitoryService";
+import { getObjectById, getFavoriteMovieById } from "../../../services/ResponsitoryService";
 import { Outlet, Link } from 'react-router-dom';
 import { addDocument } from "../../../services/FirebaseService"
 import { useAuth } from '../../../context/AuthsProvider'
 import { useNotification } from "../../../context/NotificationProvider";
+import { ContextFavorites } from '../../../context/FavoritesProvider'
 function Slideshow({ title, data }) {
     const inner = {
         movieID: '',
@@ -23,22 +24,29 @@ function Slideshow({ title, data }) {
     const [favoriteMovie, setFavoriteMovie] = useState(inner);
     const { user } = useAuth();
     const plans = useContext(ContextPlans);
+    const favorites = useContext(ContextFavorites);
 
     const addFmovie = async (element) => {
+
         // Cập nhật favoriteMovie trước khi gọi addDocument
+
         const favoriteMovie = {
             movieID: element?.id,
             accountId: user?.id, // Gán accountId nếu có user
         };
 
-        console.log(favoriteMovie);
+        const idFavorite = getFavoriteMovieById(element.id, favorites);
+        if (idFavorite) {
+            showNotification('Movie Đã có!', "error")
+        }
+        else {
+            // Gọi addDocument sau khi đảm bảo favoriteMovie đã có dữ liệu đúng
+            await addDocument("Favorites", favoriteMovie);
+            showNotification('Movie add successfully!', "success");
+        }
 
-        // Gọi addDocument sau khi đảm bảo favoriteMovie đã có dữ liệu đúng
-        await addDocument("Favorites", favoriteMovie);
-        showNotification('Movie add successfully!', "success");
+
     }
-
-    console.log(favoriteMovie);
 
     return (
         <div>

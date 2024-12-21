@@ -7,19 +7,28 @@ import Slideshow from '../Slideshow/Slideshow';
 import { getMoviesRents, getObjectById } from "../../../services/ResponsitoryService";
 import { ContextMovies } from "../../../context/MoviesProvider";
 import { ContextPlans } from "../../../context/PlansProvider";
-import React, { useContext ,useEffect} from 'react';
+import React, { useContext ,useEffect, useState} from 'react';
 import { Link, useParams } from "react-router-dom";
+import {addDocument} from '../../../services/FirebaseService';
 function DetailMovie(props) {
     const movies = useContext(ContextMovies);
     const plans = useContext(ContextPlans);
     const moviesRents = getMoviesRents(plans, movies, "3");
     const moviesVipSS = getMoviesRents(plans, movies, "4");
-    const { id } = useParams();
-
+    let { id } = useParams();
+    const inner = {
+        movieID : id 
+    }
+  
+    const [movieWatched , setMovieWatched] = useState(inner)
     useEffect(() => {
         // Cuộn lên đầu trang khi trang được render
         window.scrollTo(0, 0);
       }, []); // [] để chỉ chạy khi component được mount
+
+    const addMovieWatched = async () =>{ 
+        await addDocument("MovieWatchs", movieWatched);
+    }
     return (
         <div>
             <div className="relative h-screen">
@@ -48,8 +57,9 @@ function DetailMovie(props) {
 
                         {/* Nút xem phim */}
                         <div className="flex justify-start mt-3">
+
                             <Link to={`/Detail/PlayMovie/${id}`}>
-                                <button
+                                <button onClick={addMovieWatched}
                                     className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md shadow-lg transition-all duration-300 transform hover:scale-105"
                                 >
                                     Watch Movie
