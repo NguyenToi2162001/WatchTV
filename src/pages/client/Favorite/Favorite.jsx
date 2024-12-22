@@ -38,10 +38,6 @@ function Favorite(props) {
 
     }
 
-    //Tạo danh sách các bộ phim đã xem
-
-
-
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-700 p-4 md:p-6 rounded-lg shadow-lg">
             {/* Danh Sách Yêu Thích */}

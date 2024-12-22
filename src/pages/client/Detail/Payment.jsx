@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { FaRegCreditCard } from "react-icons/fa";
 import { FcSimCardChip } from "react-icons/fc";
 import { PiDeviceMobileFill } from "react-icons/pi";
@@ -9,18 +9,62 @@ import { ContextPackages } from '../../../context/PackagesProvider';
 import { ContextPlans } from '../../../context/PlansProvider';
 import { getAllObjectById, getObjectById } from '../../../services/ResponsitoryService';
 import { useAuth } from '../../../context/AuthsProvider'
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { initialOptions } from '../../../utils/Constants';
+import { addDocument } from '../../../services/FirebaseService';
 function Payment(props) {
     const packages = useContext(ContextPackages);
     const plans = useContext(ContextPlans);
+    const [paymentMethod, setPaymentMethod] = useState('Credit Card')
     const { id } = useParams();
     const { user } = useAuth();
+    const usd = useRef("10");
     const list = getAllObjectById(id, packages);
     const price = getObjectById(id, plans)?.pricePerMonth;
-    const sortedList = list.sort((a, b) => a.time - b.time); 
+    const sortedList = list.sort((a, b) => a.time - b.time);
     const [isChooose, setIschoose] = useState(sortedList.length > 0 ? sortedList[0] : null);
+    const isChooseUseRef = useRef(sortedList[0]);
+    const exchangeRate = 24000;
     const priceByMonth = (element) => {
-        return (price * element?.time) / 100 * (100 - element?.discount)
-    }
+        const priceInVND = (price * element?.time) / 100 * (100 - element?.discount);
+        return priceInVND; // Đổi sang USD
+    };
+
+    useEffect(() => {
+        usd.current = priceByMonth(isChooose);
+        isChooseUseRef.current = isChooose;
+    }, [isChooose]);
+
+    console.log(isChooose);
+
+
+    // Function to create a subscription in Firestore
+    const createSubscription = async (transactionId) => {
+        try {
+
+            const currentPackage = isChooseUseRef.current;
+            const price = usd.current / exchangeRate;
+            const startDate = new Date();
+            const expiryDate = new Date();
+            expiryDate.setMonth(startDate.getMonth() + (parseInt(currentPackage.time) || 1));
+            const newSup = {
+                idUser: user.id,
+                plan: id,
+                startDate: startDate,
+                expiryDate: expiryDate,
+                paymentMethod: paymentMethod,
+                transactionId: transactionId,
+                price: price
+            }
+            console.log(newSup);
+
+            await addDocument('Subscriptions',newSup);
+
+        } catch (error) {
+            console.error('Error creating subscription:', error);
+            alert('Failed to create subscription. Please try again.');
+        }
+    };
 
     return (
         <div className='bg-slate-200'>
@@ -113,6 +157,37 @@ function Payment(props) {
                                 <p className='ms-2'> VNPAY </p>
                             </div>
                         </div>
+                    </div>
+                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                        <PayPalScriptProvider options={initialOptions}>
+                            <PayPalButtons
+                                style={{ layout: "vertical" }}
+                                createOrder={(data, actions) => {
+                                    const price = usd.current / exchangeRate;                                 
+                                    return actions.order.create({
+
+
+                                        purchase_units: [
+                                            {
+                                                amount: {
+                                                    value: price.toFixed(2)  // Không bao gồm ký hiệu tiền tệ
+                                                }
+                                            }
+                                        ]
+                                    });
+                                }}
+                                onApprove={(data, actions) => {
+                                    return actions.order.capture().then((details) => {
+                                        const transactionId = details.id; // Lấy ID giao dịch từ PayPal
+                                        createSubscription(transactionId);
+                                    });
+                                }}
+                                onError={(err) => {
+                                    console.error("PayPal error:", err);
+                                }}
+                            />
+                        </PayPalScriptProvider>
+
                     </div>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { MdFormatAlignJustify } from "react-icons/md";
 import { useAuth } from "../../../context/AuthsProvider";
-import { Link } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa";
 import { HiLibrary } from "react-icons/hi";
@@ -10,7 +9,7 @@ import { IoMdLogOut } from "react-icons/io";
 import DialogLogin from './DialogLogin';
 import DialogSignUp from './DialogSignUp';
 import logo from "../../../assets/images/rim.png";
-
+import { Link, Outlet, useLocation } from 'react-router-dom';
 const inner = {
     username: "",
     email: "",
@@ -26,7 +25,8 @@ export default function Header() {
     const [errors, setErrors] = useState(inner);
     const { user } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    const location = useLocation();
+    const isActive = (path) => location.pathname === path;
     const openMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -61,19 +61,34 @@ export default function Header() {
                 {/* Menu trên desktop (luôn hiển thị) */}
                 <div className={`flex-1 md:flex hidden`}>
                     <div className='flex list-none space-x-8 ms-4'>
-                        <Link to={"/"}>
+                        <Link style={{
+                            fontWeight: isActive("/") ? "bold" : "normal",
+                            color: isActive("/") ? "blue" : "white",
+                        }} to={"/"}>
                             <li className="hover:text-gray-400 cursor-pointer">Trang Chủ</li>
                         </Link>
-                        <Link to="/Home/Rentedmovies">
+                        <Link style={{
+                            fontWeight: isActive("/Home/Rentedmovies") ? "bold" : "normal",
+                            color: isActive("/Home/Rentedmovies") ? "blue" : "white",
+                        }} to="/Home/Rentedmovies">
                             <li className="hover:text-gray-400 cursor-pointer">Phim Thuê</li>
                         </Link>
-                        <Link to="/Home/Promotion">
+                        <Link style={{
+                            fontWeight: isActive("/Home/Promotion") ? "bold" : "normal",
+                            color: isActive("/Home/Promotion") ? "blue" : "white",
+                        }} to="/Home/Promotion">
                             <li className="hover:text-gray-400 cursor-pointer">Khuyến Mãi</li>
                         </Link>
-                        <Link to="/Home/Blog">
+                        <Link style={{
+                            fontWeight: isActive("/Home/Blog") ? "bold" : "normal",
+                            color: isActive("/Home/Blog") ? "blue" : "white",
+                        }} to="/Home/Blog">
                             <li className="hover:text-gray-400 cursor-pointer"> Blog</li>
                         </Link>
-                        <Link to="/Support/Support">
+                        <Link style={{
+                            fontWeight: isActive("/Support/Support") ? "bold" : "normal",
+                            color: isActive("/Support/Support") ? "blue" : "white",
+                        }} to="/Support/Support">
                             <li className="hover:text-gray-400 cursor-pointer"> Support</li>
                         </Link>
                     </div>
@@ -81,20 +96,35 @@ export default function Header() {
                 {/* Menu trên mobile (ẩn khi chưa bấm icon, hiển thị khi bấm icon) */}
                 <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'} absolute top-16 left-0 w-full bg-gray-800 z-20 list-none`}>
                     <div className="flex flex-col items-center py-4 space-y-4">
-                        <Link to={"/"}>
-                            <li className="hover:text-black hover:bg-slate-100 cursor-pointer py-2 w-full text-center">Trang Chủ</li>
+                        <Link style={{
+                            fontWeight: isActive("/") ? "bold" : "normal",
+                            color: isActive("/") ? "blue" : "",
+                        }} to={"/"}>
+                            <li className=" cursor-pointer py-2 w-full text-center">Trang Chủ</li>
                         </Link>
-                        <Link to="/Home/Rentedmovies">
-                            <li className="hover:text-black hover:bg-slate-100 cursor-pointer py-2 w-full text-center">Phim Thuê</li>
+                        <Link style={{
+                            fontWeight: isActive("/Home/Rentedmovies") ? "bold" : "normal",
+                            color: isActive("/Home/Rentedmovies") ? "blue" : "white",
+                        }} to="/Home/Rentedmovies">
+                            <li className="  cursor-pointer py-2 w-full text-center">Phim Thuê</li>
                         </Link>
-                        <Link to="/Home/Promotion">
-                            <li className="hover:text-black hover:bg-slate-100 cursor-pointer py-2 w-full text-center">Khuyến Mãi</li>
+                        <Link style={{
+                            fontWeight: isActive("/Home/Promotion") ? "bold" : "normal",
+                            color: isActive("/Home/Promotion") ? "blue" : "white",
+                        }} to="/Home/Promotion">
+                            <li className=" cursor-pointer py-2 w-full text-center">Khuyến Mãi</li>
                         </Link>
-                        <Link to="/Home/Blog">
-                            <li className="hover:text-black hover:bg-slate-100 cursor-pointer py-2 w-full text-center">Blog</li>
+                        <Link style={{
+                            fontWeight: isActive("/Home/Blog") ? "bold" : "normal",
+                            color: isActive("/Home/Blog") ? "blue" : "white",
+                        }} to="/Home/Blog">
+                            <li className=" cursor-pointer py-2 w-full text-center">Blog</li>
                         </Link>
-                        <Link to="/Support/Support">
-                            <li className="hover:text-black hover:bg-slate-100 cursor-pointer py-2 w-full text-center">Hỗ Trợ</li>
+                        <Link style={{
+                            fontWeight: isActive("/Support/Support") ? "bold" : "normal",
+                            color: isActive("/Support/Support") ? "blue" : "white",
+                        }} to="/Support/Support">
+                            <li className="  cursor-pointer py-2 w-full text-center">Hỗ Trợ</li>
                         </Link>
                     </div>
                 </div>
@@ -126,13 +156,17 @@ export default function Header() {
                                         <p className="text-black">{user.email}</p>
                                     </div>
                                     <hr className="border-black border-t-1 mt-2" />
-                                    <Link to={"/Favorite/Favorite"}>
+                                    <Link style={{
+                                        fontWeight: isActive("/Favorite/Favorite") ? "bold" : "normal",
+                                    }} to={"/Favorite/Favorite"}>
                                         <div className='flex items-center justify-start p-2 mt-1 text-black  hover:bg-black hover:text-white'>
                                             <HiLibrary size={18} />
                                             <button className=" ms-2">Movie Library Management</button>
                                         </div>
                                     </Link>
-                                    <Link to={"/Acount/Account"}>
+                                    <Link style={{
+                                        fontWeight: isActive("/Acount/Account") ? "bold" : "normal",
+                                    }}  to={"/Acount/Account"}>
                                         <div className='flex items-center justify-start p-2 mt-1 text-black hover:bg-black hover:text-white'>
                                             <FaUser size={18} />
                                             <button className="ms-2">Account</button>

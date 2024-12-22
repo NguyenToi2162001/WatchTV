@@ -3,6 +3,11 @@ import { GoFileMedia } from "react-icons/go";
 import { RiVipDiamondFill } from "react-icons/ri";
 import { GiEngagementRing } from "react-icons/gi";
 import { FaChromecast } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { ImLibrary } from "react-icons/im";
+import { CgMenuGridR } from "react-icons/cg";
+import { GiBoxUnpacking } from "react-icons/gi";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 export const logo = 'https://png.pngtree.com/template/20190613/ourmid/pngtree-logo-with-movie-camera-and-tripod-you-can-use-for-logo-image_211693.jpg';
 
 export const menus = [
@@ -31,7 +36,7 @@ export const menus = [
     {
         id: 2,
         title: "Vip",
-        icon: <RiVipDiamondFill />        ,
+        icon: <RiVipDiamondFill />,
         items: [
             {
                 id: 1,
@@ -94,10 +99,23 @@ export const menus = [
             }
         ]
     }
-    
+
 ];
 export const ROLES = {
     ADMIN: 'admin',        // Quản trị viên cấp cao
     MODERATOR: 'moderator', // Quản trị viên cấp trung (người kiểm duyệt)
     USER: 'user',          // Người dùng thông thường
+};
+
+export const menuItems = [
+    { to: "info", icon: <FaUser size={20} />, label: "Account" },
+    { to: "library", icon: <ImLibrary size={20} />, label: "Movie Library Management" },
+    { to: "subscription", icon: <CgMenuGridR size={20} />, label: "Subscription Plan Management" },
+    { to: "offer", icon: <GiBoxUnpacking size={20} />, label: "Your Offer" },
+    { to: "", icon: <RiLogoutCircleRLine size={20} />, label: "Log Out" },
+];
+export const initialOptions = {
+    "client-id": "Acj8YVrqrM-coMhVPYhRdVa5Co3IV2774Pkk7oSagwpGtywsxvW7kcfwfpeiddAKtIHgfxVtMDkl6Qay",
+    currency: "USD",
+    intent: "capture"
   };

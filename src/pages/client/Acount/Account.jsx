@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { FaUserCircle, FaUser } from 'react-icons/fa';
-import { ImLibrary } from 'react-icons/im';
-import { CgMenuGridR } from 'react-icons/cg';
-import { GiBoxUnpacking } from "react-icons/gi";
-import { RiLogoutCircleRLine } from "react-icons/ri";
 import { useAuth } from "../../../context/AuthsProvider";
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { IoMdPhotos } from "react-icons/io";
+import { menuItems } from "../../../utils/Constants";
 import {
     Button,
     Box,
@@ -17,6 +13,7 @@ import { AccountsProvider } from '../../../context/AccountsProvider';
 
 function Account(props) {
     const { user } = useAuth();
+    const location = useLocation();
     const [account, setAccount] = useState({
         id: "",
         fullName: "",
@@ -44,7 +41,7 @@ function Account(props) {
         }
     };
     return (
-        <AccountsProvider value={{account , setAccount}}>
+        <AccountsProvider value={{ account, setAccount }}>
             <Box
                 sx={{
                     display: 'flex',
@@ -101,54 +98,23 @@ function Account(props) {
 
                     {/* Navigation Links */}
                     <Box>
-                        <Link to="info">
-                            <Box className="flex p-4 hover:bg-black hover:text-white">
-                                <FaUser size={20} />
-                                <Typography variant="body1" sx={{ ml: 2 }}>
-                                    <p style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        Account
-                                    </p>
-                                </Typography>
-                            </Box></Link>
-                        <Link to="library" >
-                            <Box className="flex p-4 hover:bg-black hover:text-white">
-                                <ImLibrary size={20} />
-                                <Typography variant="body1" sx={{ ml: 2 }}>
-                                    <p style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        Movie Library Management
-                                    </p>
-                                </Typography>
-                            </Box></Link>
-                        <Link to="subscription">
-                            <Box className="flex p-4 hover:bg-black hover:text-white">
-                                <CgMenuGridR size={20} />
-                                <Typography variant="body1" sx={{ ml: 2 }}>
-                                    <p style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        Subscription Plan Management
-                                    </p>
-                                </Typography>
-                            </Box>
-                        </Link>
-                        <Link to="offer">
-                            <Box className="flex p-4 hover:bg-black hover:text-white">
-                                <GiBoxUnpacking
-                                    size={20} />
-                                <Typography variant="body1" sx={{ ml: 2 }}>
-                                    <p style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        Your Offer
-                                    </p>
-                                </Typography>
-                            </Box></Link>
-                        <Link to="">
-                            <Box className="flex p-4 hover:bg-black hover:text-white">
-                                <RiLogoutCircleRLine
-                                    size={20} />
-                                <Typography variant="body1" sx={{ ml: 2 }}>
-                                    <p style={{ textDecoration: 'none', color: 'inherit' }}>
-                                        Log Out
-                                    </p>
-                                </Typography>
-                            </Box></Link>
+                        {menuItems.map((item, index) => {
+                    
+                            return (
+                                <Link key={index} to={item.to}>
+                                    <Box
+                                        className={`flex p-4 hover:bg-black hover:text-white`}
+                                    >
+                                        {item.icon}
+                                        <Typography variant="body1" sx={{ ml: 2 }}>
+                                            <p style={{ textDecoration: "none", color: "inherit" }}>
+                                                {item.label}
+                                            </p>
+                                        </Typography>
+                                    </Box>
+                                </Link>
+                            );
+                        })}
                     </Box>
                 </Box>
 
@@ -162,7 +128,7 @@ function Account(props) {
                         borderRadius: 2,
                     }}
                 >
-                    <Outlet  account={account}  setAccount={setAccount}/>
+                    <Outlet account={account} setAccount={setAccount} />
                 </Box>
             </Box>
         </AccountsProvider>

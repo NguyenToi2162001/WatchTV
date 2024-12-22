@@ -7,29 +7,30 @@ import Slideshow from '../Slideshow/Slideshow';
 import { getMoviesRents, getObjectById } from "../../../services/ResponsitoryService";
 import { ContextMovies } from "../../../context/MoviesProvider";
 import { ContextPlans } from "../../../context/PlansProvider";
-import React, { useContext ,useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
-import {addDocument} from '../../../services/FirebaseService';
+import { addDocument } from '../../../services/FirebaseService';
 import { useAuth } from '../../../context/AuthsProvider';
 function DetailMovie(props) {
+    const { user } = useAuth();
+    let { id } = useParams();
+    const inner = {
+        movieID: id,
+        accountId: user?.id
+    }
+    const [movieWatched, setMovieWatched] = useState(inner)
     const movies = useContext(ContextMovies);
     const plans = useContext(ContextPlans);
     const moviesRents = getMoviesRents(plans, movies, "3");
     const moviesVipSS = getMoviesRents(plans, movies, "4");
-    const { user } = useAuth();
-    let { id } = useParams();
-    const inner = {
-        movieID : id ,
-        accountId : user?.id
-    }
-  
-    const [movieWatched , setMovieWatched] = useState(inner)
-    useEffect(() => {
-        // Cuộn lên đầu trang khi trang được render
-        window.scrollTo(0, 0);
-      }, []); // [] để chỉ chạy khi component được mount
 
-    const addMovieWatched = async () =>{ 
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Cuộn mượt
+    });
+
+    const addMovieWatched = async () => {
         await addDocument("MovieWatchs", movieWatched);
     }
     return (
@@ -49,8 +50,8 @@ function DetailMovie(props) {
 
                         {/* Thời lượng phim */}
                         <div className="flex items-center space-x-2">
-                            <p className="text-start font-bold text-gray-700">Duration:</p>
-                            <p className="text-gray-700">{getObjectById(id, movies)?.duration}</p>
+                            <p className="text-start font-bold text-white">Duration:</p>
+                            <p className="text-white">{getObjectById(id, movies)?.duration}</p>
                         </div>
 
                         {/* Mô tả phim */}
