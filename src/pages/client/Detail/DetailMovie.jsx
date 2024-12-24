@@ -16,7 +16,8 @@ function DetailMovie(props) {
     let { id } = useParams();
     const inner = {
         movieID: id,
-        accountId: user?.id
+        accountId: user?.id,
+        time: new Date().toISOString(), // Lấy thời gian hiện tại
     }
     const [movieWatched, setMovieWatched] = useState(inner)
     const movies = useContext(ContextMovies);

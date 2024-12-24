@@ -4,12 +4,13 @@ import { FaHistory } from "react-icons/fa";
 import { ContextFavorites } from '../../../context/FavoritesProvider';
 import { ContextMovies } from '../../../context/MoviesProvider';
 import { useAuth } from '../../../context/AuthsProvider';
-import { ImCancelCircle } from "react-icons/im";
-import { deleteDocument } from '../../../services/FirebaseService'
+import { deleteDocument } from '../../../services/FirebaseService';
 import { useNotification } from "../../../context/NotificationProvider";
 import ModalDelete from '../../../components/ModalDelete';
+import { FaTrash } from "react-icons/fa";
 import { getFavoriteMovieById, getMovieWatchedById } from '../../../services/ResponsitoryService';
 import { ContextMovieWatchs } from '../../../context/MovieWatchedProvider';
+import { Link } from 'react-router-dom';
 function Favorite(props) {
     const favorites = useContext(ContextFavorites);
     const movies = useContext(ContextMovies);
@@ -27,9 +28,15 @@ function Favorite(props) {
 
     const listMovieWatched = moviewatcheds
         .filter(moviewatched => moviewatched.accountId === userId)
-        .map(moviewatched => movies?.find(movie => movie?.id === moviewatched?.movieID))
-        .filter(movie => movie !== undefined);
+        .map(moviewatched => ({
+            ...movies?.find(movie => movie?.id === moviewatched?.movieID),
+            time: moviewatched?.time // Gắn thời gian vào mỗi phim
+        }))
+        .filter(movie => movie !== undefined)
+        .sort((a, b) => new Date(b.time) - new Date(a.time)); // Sắp xếp giảm dần theo thời gian
+
     const isUserMatch = favorites?.some(movie => movie?.accountId === userId);
+    const isUserMatchs = moviewatcheds?.some(movie => movie?.accountId === userId);
 
     const deleteItem = async () => {
         await deleteDocument('Favorites', idxoa);
@@ -47,20 +54,23 @@ function Favorite(props) {
                     <p className="text-white text-lg font-semibold">Danh Sách Yêu Thích</p>
                 </div>
                 {isUserMatch ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
                         {list.map((movie, index) => (
-                            <div key={index} className="relative flex justify-center">
-                                <img
-                                    className="w-32 h-32 sm:w-36 sm:h-36 object-cover rounded-lg mt-3 shadow-md hover:scale-105 transition-transform duration-300"
-                                    src={movie?.imgUrl}
-                                    alt="movie poster"
-                                />
-                                <ImCancelCircle
+                            <div key={index} className="relative flex ">
+                                <Link to={`/Detail/PlayMovie/${movie.id}`}>
+                                    <img
+                                        className=" object-cover rounded-lg mt-3 shadow-md hover:scale-105 transition-transform duration-300"
+                                        src={movie?.imgUrl}
+                                        alt="movie poster"
+                                    />
+                                </Link>
+                                <FaTrash
+                                    size={18}
                                     onClick={() => {
                                         setOpenDelete(true);
                                         setIdxoa(getFavoriteMovieById(movie.id, favorites).id);
                                     }}
-                                    className="absolute top-1 right-7 text-red-400 text-2xl cursor-pointer hover:scale-110 transition-transform duration-300"
+                                    className="absolute top-1 -right-2 text-red-400 text-2xl cursor-pointer hover:scale-110 transition-transform duration-300"
                                 />
                             </div>
                         ))}
@@ -76,7 +86,7 @@ function Favorite(props) {
                     <FaHistory size={20} className="text-white" />
                     <p className="text-white text-lg font-semibold">Lịch sử xem phim của bạn</p>
                 </div>
-                {isUserMatch ? (
+                {isUserMatchs ? (
                     <div className="space-y-4">
                         {listMovieWatched.map((movie, index) => (
                             <div

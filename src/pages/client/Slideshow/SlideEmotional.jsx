@@ -8,18 +8,25 @@ import "swiper/css/scrollbar";
 import { FaPlayCircle } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
-import { ContextMovies } from "../../../context/MoviesProvider";
+
+import { ContextFavorites } from '../../../context/FavoritesProvider'
 import { ContextPlans } from "../../../context/PlansProvider";
-import { getObjectById } from "../../../services/ResponsitoryService";
+import { getObjectById, getFavoriteMovieById } from "../../../services/ResponsitoryService";
 import { addDocument } from "../../../services/FirebaseService"
 import { useAuth } from '../../../context/AuthsProvider'
 import { useNotification } from "../../../context/NotificationProvider";
 import { Link } from 'react-router-dom';
+import { FaMinus } from "react-icons/fa";
+import ModalDelete from '../../../components/ModalDelete';
+import { deleteDocument } from '../../../services/FirebaseService'
 function SlideEmotional({ title, data }) {
     const plans = useContext(ContextPlans);
-    const [idMovie , setIdMovie] = useState(null);
+    const favorites = useContext(ContextFavorites);
+    const [idxoa, setIdxoa] = useState(null)
+    const [openDelete, setOpenDelete] = useState(false);
     const { user } = useAuth();
     const showNotification = useNotification();
+
     const addFmovie = async (element) => {
         // Cập nhật favoriteMovie trước khi gọi addDocument
         const favoriteMovie = {
@@ -31,7 +38,14 @@ function SlideEmotional({ title, data }) {
 
         // Gọi addDocument sau khi đảm bảo favoriteMovie đã có dữ liệu đúng
         await addDocument("Favorites", favoriteMovie);
-        showNotification('Movie add successfully!', "succes");
+        showNotification('Movie add successfully!', "success");
+    }
+
+    const deleteItem = async () => {
+        await deleteDocument('Favorites', idxoa);
+        showNotification('Movie deleted successfully!', "error");
+        setOpenDelete(false);
+
     }
     return (
         <div>
@@ -74,7 +88,10 @@ function SlideEmotional({ title, data }) {
                                         <FaPlayCircle size={25} className="hover:text-teal-400 transition-colors duration-300" />
                                     </Link>
                                     <FaHeart size={25} className="hover:text-red-400 transition-colors duration-300" />
-                                    <FaPlus onClick={() => addFmovie(element)} size={25} className="hover:text-amber-400 transition-colors duration-300" />
+                                    {getFavoriteMovieById(element.id, favorites) ? <FaMinus onClick={() => {
+                                        setOpenDelete(true);
+                                        setIdxoa(getFavoriteMovieById(element.id, favorites).id);
+                                    }} size={25} className="hover:text-amber-400 transition-colors duration-300" /> : <FaPlus onClick={() => addFmovie(element)} size={25} className="hover:text-amber-400 transition-colors duration-300" />}
                                 </div>
                                 <div className="ms-2 mt-2 flex justify-center">
                                     <h1 className="text-sm text-white font-bold">{element.name}</h1>
@@ -87,6 +104,7 @@ function SlideEmotional({ title, data }) {
                     </SwiperSlide>
                 ))}
             </Swiper>
+            <ModalDelete openDelete={openDelete} setOpenDelete={setOpenDelete} deleteItem={deleteItem} />
         </div>
     );
 }
