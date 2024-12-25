@@ -1,13 +1,55 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaStar } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
+import { useAuth } from '../../../context/AuthsProvider';
 import { ContextEpisodes } from "../../../context/EpisodesProvider"
 import { useParams } from 'react-router-dom';
 import { getEpisodeById } from "../../../services/ResponsitoryService";
+import { addDocument } from '../../../services/FirebaseService';
+import { useNotification } from "../../../context/NotificationProvider";
+import { ContextComments } from '../../../context/CommentsProvider';
+import { TextField } from '@mui/material';
+import { getAllCommentById, getObjectById } from '../../../services/ResponsitoryService';
+import { ContextSignUps } from "../../../context/SignUpProvider";
 function PlayMovie(props) {
     const episodes = useContext(ContextEpisodes);
+    const showNotification = useNotification();
     const { id } = useParams();
+    const { user } = useAuth();
+    const comments = useContext(ContextComments);
+    const accounts = useContext(ContextSignUps);
 
+    const inner = {
+        content: "",
+        acountId: "",
+        movieID: "",
+        time: ""
+    }
+    const [comment, setComment] = useState(inner);
+    const addComment = async () => {
+        await addDocument("Comments", comment);
+        showNotification('Comment add successfully!', "success");
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000); // 1000ms = 1 giây
+
+    }
+    // const isComment = comments.some(comment => comment.movieID === id);
+
+    const listComment = getAllCommentById(id, comments);
+    const sortedComments = [...listComment].sort((a, b) => new Date(b.time) - new Date(a.time)); // Sắp xếp giảm dần (mới nhất trước)
+
+
+    const handleInput = (event) => {
+        const { value } = event.target;
+        setComment({
+            content: value,
+            acountId: user.id,
+            movieID: id,
+            time: new Date().toISOString()
+        });
+    };
 
 
 
@@ -27,11 +69,34 @@ function PlayMovie(props) {
                 <button className='bg-red-800  px-3 py-2 rounded-md text-white text-sm' > Full HD </button>
                 <div className=' grid grid-cols-1 lg:grid-cols-2'>
                     <div>
-                        <div className='mt-7'>
-                            <input className='w-11/12 h-28 rounded-xl' type="text" />
+                        <div className='mt-7  w-96'>
+                            <TextField
+                                name="comment"
+                                variant="outlined"
+                                className="bg-gray-50 rounded-md"
+                                InputProps={{
+                                    style: { borderRadius: "8px" },
+                                }}
+                                onChange={handleInput}
+                                fullWidth
+                            />
                         </div>
                         <div className='mt-4'>
-                            <button className='bg-blue-800  px-2 py-2 rounded-md text-white hover:bg-cyan-600 text-sm' > Add Comment</button>
+                            <button onClick={addComment} className='bg-blue-800  px-2 py-2 rounded-md text-white hover:bg-cyan-600 text-sm' > Add Comment</button>
+                        </div>
+                        <div className='flex items-center text-yellow-300 mt-7'>
+                            <FaStar />
+                            <p className='ms-3'>TOP COMMENT</p>
+                        </div>
+                        <div>
+                            {sortedComments.map((comment, index) => (
+                                <div
+                                    key={index} className='mt-3 bg-gray-500 p-4 w-96 rounded-lg'
+                                >
+                                    <p className='text-black font-bold'>{getObjectById(comment?.acountId, accounts)?.username}</p>
+                                    <p className='text-white '>{comment.content}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                     <div>

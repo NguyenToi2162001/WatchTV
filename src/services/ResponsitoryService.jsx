@@ -32,11 +32,21 @@ export const getAllObjectById = (id, data) => {
   // Lọc tất cả phần tử có ID khớp với ID yêu cầu
   return data?.filter((element) => element.planID === id);
 };
+
 export const getEpisodeById = (id, episodes) => {
   // Kiểm tra nếu episodes là một mảng hợp lệ, sau đó tìm phần tử
   if (!Array.isArray(episodes)) return null;
   return episodes.find((episode) => episode.idMovie === id) || null;
 };
+
+export const getAllCommentById = (id, data) => {
+  // Lọc tất cả phần tử có ID khớp với ID yêu cầu
+  return data?.filter((element) => element.movieID === id);
+};
+
+
+
+
 
 
 

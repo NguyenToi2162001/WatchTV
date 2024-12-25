@@ -26,6 +26,7 @@ function DetailMovie(props) {
     const moviesVipSS = getMoviesRents(plans, movies, "4");
 
 
+
     window.scrollTo({
         top: 0,
         behavior: "smooth", // Cuộn mượt
@@ -33,6 +34,7 @@ function DetailMovie(props) {
 
     const addMovieWatched = async () => {
         await addDocument("MovieWatchs", movieWatched);
+
     }
     return (
         <div>
