@@ -4,13 +4,15 @@ import { CiHeart } from "react-icons/ci";
 import { IoEyeOutline } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa6";
 import Slideshow from '../Slideshow/Slideshow';
-import { getMoviesRents, getObjectById } from "../../../services/ResponsitoryService";
+import { getMoviesRents, getObjectById ,getAllCommentById } from "../../../services/ResponsitoryService";
 import { ContextMovies } from "../../../context/MoviesProvider";
 import { ContextPlans } from "../../../context/PlansProvider";
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { addDocument } from '../../../services/FirebaseService';
 import { useAuth } from '../../../context/AuthsProvider';
+import { ContextLikes } from "../../../context/LikesProvider";
+import { ContextMovieWatchs} from '../../../context/MovieWatchedProvider';
 function DetailMovie(props) {
     const { user } = useAuth();
     let { id } = useParams();
@@ -18,15 +20,22 @@ function DetailMovie(props) {
         movieID: id,
         accountId: user?.id,
         time: new Date().toISOString(), // Lấy thời gian hiện tại
-    }
+    }  
     const [movieWatched, setMovieWatched] = useState(inner)
     const movies = useContext(ContextMovies);
+    const listWatchs = useContext(ContextMovieWatchs);
     const plans = useContext(ContextPlans);
     const moviesRents = getMoviesRents(plans, movies, "3");
     const moviesVipSS = getMoviesRents(plans, movies, "4");
+    const likes = useContext(ContextLikes);
+    const listLike = getAllCommentById(id,likes);
+    const moviewatched = getAllCommentById (id,listWatchs);
 
+    
+    
+  
 
-
+    
     window.scrollTo({
         top: 0,
         behavior: "smooth", // Cuộn mượt
@@ -34,8 +43,8 @@ function DetailMovie(props) {
 
     const addMovieWatched = async () => {
         await addDocument("MovieWatchs", movieWatched);
-
     }
+
     return (
         <div>
             <div className="relative h-screen">
@@ -73,16 +82,15 @@ function DetailMovie(props) {
                                 </button>
                             </Link>
                         </div>
-
                         {/* Tương tác */}
                         <div className="flex items-center space-x-6 mt-3 text-gray-400">
                             <div className="flex items-center space-x-2">
                                 <CiHeart className="text-red-500 text-xl cursor-pointer hover:scale-110 transition-transform" />
-                                <p>0</p>
+                                <p>{listLike.length}</p>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <IoEyeOutline className="text-green-400 text-xl cursor-pointer hover:scale-110 transition-transform" />
-                                <p>0</p>
+                                <p>{moviewatched.length}</p>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <FaPlus className="text-yellow-400 text-xl cursor-pointer hover:scale-110 transition-transform" />

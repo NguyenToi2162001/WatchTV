@@ -12,7 +12,7 @@ export const getMovieWatchedById = (id, data) => {
   // Tìm phim có ID khớp với ID yêu cầu
   return data?.filter((element) => element.movieID === id);
 };
- 
+
 export const getMoviesRents = (plans, movies, count) => {
 
   // Lọc các phim có planid tương ứng và có lever > 3
@@ -40,9 +40,10 @@ export const getEpisodeById = (id, episodes) => {
 };
 
 export const getAllCommentById = (id, data) => {
-  // Lọc tất cả phần tử có ID khớp với ID yêu cầu
-  return data?.filter((element) => element.movieID === id);
+  if (!Array.isArray(data)) return []; // Đảm bảo data là mảng
+  return data.filter((element) => element.movieID === id);
 };
+
 
 
 

@@ -9,7 +9,7 @@ import { FaPlayCircle } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import { ContextPlans } from "../../../context/PlansProvider";
-import { getObjectById, getFavoriteMovieById } from "../../../services/ResponsitoryService";
+import { getObjectById, getFavoriteMovieById, getAllCommentById } from "../../../services/ResponsitoryService";
 import { Outlet, Link } from 'react-router-dom';
 import { addDocument } from "../../../services/FirebaseService"
 import { useAuth } from '../../../context/AuthsProvider'
@@ -18,6 +18,7 @@ import { ContextFavorites } from '../../../context/FavoritesProvider'
 import { FaMinus } from "react-icons/fa";
 import ModalDelete from '../../../components/ModalDelete';
 import { deleteDocument } from '../../../services/FirebaseService'
+import { ContextLikes } from '../../../context/LikesProvider';
 function Slideshow({ title, data }) {
     const showNotification = useNotification();
     const { user } = useAuth();
@@ -25,6 +26,7 @@ function Slideshow({ title, data }) {
     const favorites = useContext(ContextFavorites);
     const [idxoa, setIdxoa] = useState(null)
     const [openDelete, setOpenDelete] = useState(false);
+    const likes = useContext(ContextLikes);
     const addFmovie = async (element) => {
 
         // Cập nhật favoriteMovie trước khi gọi addDocument
@@ -52,6 +54,21 @@ function Slideshow({ title, data }) {
         setOpenDelete(false);
 
     }
+
+    const addLike = async (element) => {
+        const heart = {
+            movieID: element.id,
+            accountId: user?.id,
+        }
+        await addDocument("Likes", heart);
+        showNotification('Movie like successfully!', "success");
+    }
+
+    const isUserLikes = likes?.some(movie => movie?.accountId === user.id);
+
+
+
+
 
     return (
         <div>
@@ -90,7 +107,16 @@ function Slideshow({ title, data }) {
                                     <Link to={`/Detail/DetailMovie/${element.id}`}>
                                         <FaPlayCircle size={25} className="hover:text-teal-400 transition-colors duration-300" />
                                     </Link>
-                                    <FaHeart size={25} className="hover:text-red-400 transition-colors duration-300" />
+                                    {likes?.some(like => like.accountId === user.id && like.movieID === element.id) ? (
+                                        <FaHeart size={25} className="text-red-400 transition-colors duration-300" />
+                                    ) : (
+                                        <FaHeart
+                                            onClick={() => addLike(element)}
+                                            size={25}
+                                            className="text-white transition-colors duration-300"
+                                        />
+                                    )}
+
                                     {getFavoriteMovieById(element.id, favorites) ? <FaMinus onClick={() => {
                                         setOpenDelete(true);
                                         setIdxoa(getFavoriteMovieById(element.id, favorites).id);
