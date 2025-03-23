@@ -64,11 +64,6 @@ function Slideshow({ title, data }) {
         showNotification('Movie like successfully!', "success");
     }
 
-    const isUserLikes = likes?.some(movie => movie?.accountId === user.id);
-
-
-
-
 
     return (
         <div>
@@ -104,10 +99,10 @@ function Slideshow({ title, data }) {
                             {/* Thẻ div hiện khi hover */}
                             <div className="absolute bottom-0 bg-black bg-opacity-50 opacity-0 translate-y-10 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out w-full p-2">
                                 <div className="flex items-center justify-around text-white">
-                                    <Link to={`/Detail/DetailMovie/${element.id}`}>
+                                    <Link to={`/Detail/DetailMovie/${element?.id}`}>
                                         <FaPlayCircle size={25} className="hover:text-teal-400 transition-colors duration-300" />
                                     </Link>
-                                    {likes?.some(like => like.accountId === user.id && like.movieID === element.id) ? (
+                                    {likes?.some(like => like?.accountId === user?.id && like.movieID === element?.id) ? (
                                         <FaHeart size={25} className="text-red-400 transition-colors duration-300" />
                                     ) : (
                                         <FaHeart
@@ -117,16 +112,16 @@ function Slideshow({ title, data }) {
                                         />
                                     )}
 
-                                    {getFavoriteMovieById(element.id, favorites) ? <FaMinus onClick={() => {
+                                    {getFavoriteMovieById(element?.id, favorites) ? <FaMinus onClick={() => {
                                         setOpenDelete(true);
-                                        setIdxoa(getFavoriteMovieById(element.id, favorites).id);
+                                        setIdxoa(getFavoriteMovieById(element?.id, favorites)?.id);
                                     }} size={25} className="hover:text-amber-400 transition-colors duration-300" /> : <FaPlus onClick={() => addFmovie(element)} size={25} className="hover:text-amber-400 transition-colors duration-300" />}
                                 </div>
                                 <div className="ms-2 mt-2">
-                                    <h1 className="text-sm text-white font-bold">{element.name}</h1>
+                                    <h1 className="text-sm text-white font-bold">{element?.name}</h1>
                                 </div>
                                 <div className="flex ms-2">
-                                    <h1 className="text-sm text-white">{getObjectById(element.planID, plans)?.title}</h1>
+                                    <h1 className="text-sm text-white">{getObjectById(element?.planID, plans)?.title}</h1>
                                 </div>
                             </div>
                         </div>
