@@ -45,7 +45,7 @@ function PlayMovie(props) {
         const { value } = event.target;
         setComment({
             content: value,
-            acountId: user.id,
+            acountId: user?.id,
             movieID: id,
             time: new Date().toISOString()
         });
